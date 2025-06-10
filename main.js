@@ -48,8 +48,7 @@ async function getDashboardData(query) {
         return result;
 
     } catch (error) {
-        console.error("Errore durante il recupero dei dati:", error);
-        throw error;
+        throw new Error("Errore durante il recupero dei dati: " + error.message);
     }
 }
 
