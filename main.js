@@ -37,11 +37,11 @@ async function getDashboardData(query) {
             airportRes.json()
         ]);
 
-        const city = destData[0].name;
-        const country = destData[0].country;
-        const temperature = weatherData[0].temperature;
-        const weather = weatherData[0].weather_description;
-        const airport = airportData[0].name;
+        const city = destData[0]?.name ?? null;
+        const country = destData[0]?.country ?? null;
+        const temperature = weatherData[0]?.temperature ?? null;
+        const weather = weatherData[0]?.weather_description ?? null;
+        const airport = airportData[0]?.name ?? null;
 
         const result = { city, country, temperature, weather, airport };
 
@@ -53,13 +53,19 @@ async function getDashboardData(query) {
     }
 }
 
-getDashboardData('london')
+getDashboardData('vienna')
     .then(data => {
         console.log('Dasboard data:', data);
-        console.log(
-            `${data.city} is in ${data.country}.\n` +
-            `Today there are ${data.temperature} degrees and the weather is ${data.weather}.\n` +
-            `The main airport is ${data.airport}.\n`
-        );
+        let output = '';
+        if (data.city !== null && data.country !== null) {
+            output += `${data.city} is in ${data.country}.\n`;
+        }
+        if (data.temperature !== null && data.weather !== null) {
+            output += `Today there are ${data.temperature} degrees and the weather is ${data.weather}.\n`;
+        }
+        if (data.airport !== null) {
+            output += `The main airport is ${data.airport}.\n`;
+        }
+        console.log(output);
     })
     .catch(error => console.error(error));
